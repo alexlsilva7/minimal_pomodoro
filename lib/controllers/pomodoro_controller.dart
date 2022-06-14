@@ -25,7 +25,7 @@ class PomodoroController extends GetxController {
   void iniciar() {
     iniciado.value = true;
     reiniciado.value = false;
-    cronometro = Timer.periodic(const Duration(seconds: 1), (timer) {
+    cronometro = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       if (minutos.value == 0 && segundos.value == 0) {
         _trocarTipoIntervalo();
       } else if (segundos.value == 0) {
@@ -96,9 +96,9 @@ class PomodoroController extends GetxController {
   }
 
   AudioPlayer player = AudioPlayer();
-  void playBell() async {
+  Future<void> playBell() async {
     await player.setSource(AssetSource('sound/bell.mp3'));
-    await player.setPlayerMode(PlayerMode.lowLatency);
+    await player.setVolume(1);
     await player.resume();
   }
 
