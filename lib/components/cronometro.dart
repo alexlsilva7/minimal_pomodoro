@@ -180,6 +180,7 @@ class _CronometroState extends State<Cronometro>
                       : Colors.green,
                   child: IconButton(
                     iconSize: 30,
+                    splashRadius: 10,
                     onPressed: () {
                       if (store.iniciado.value) {
                         store.parar();

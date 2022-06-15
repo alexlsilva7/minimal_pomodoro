@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Pomodoro',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
-        useMaterial3: true,
+        useMaterial3: false,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color.fromARGB(255, 23, 18, 32),
       ),

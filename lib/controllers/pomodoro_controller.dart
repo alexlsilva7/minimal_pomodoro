@@ -59,6 +59,24 @@ class PomodoroController extends GetxController {
     }
   }
 
+  void setTempoTrabalho(int tempo) {
+    if (tempo < 120 && tempo > 0) {
+      tempoTrabalho.value = tempo;
+    }
+    if (estaTrabalhando()) {
+      reiniciar();
+    }
+  }
+
+  void setTempoDescanso(int tempo) {
+    if (tempo < 120 && tempo > 0) {
+      tempoDescanso.value = tempo;
+    }
+    if (estaDescansando()) {
+      reiniciar();
+    }
+  }
+
   void decrementarTempoTrabalho() {
     if (tempoTrabalho.value > 1) {
       tempoTrabalho.value--;
