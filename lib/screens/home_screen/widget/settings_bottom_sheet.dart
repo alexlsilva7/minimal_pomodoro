@@ -18,7 +18,7 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
 
   @override
   void initState() {
-    tempoFoco = store.tempoTrabalho.value;
+    tempoFoco = store.tempoFoco.value;
     tempoDescanso = store.tempoDescanso.value;
     super.initState();
   }
@@ -136,7 +136,7 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () {
-                          store.setTempoTrabalho(tempoFoco);
+                          store.setTempoFoco(tempoFoco);
                           store.setTempoDescanso(tempoDescanso);
                           Get.back();
                         },

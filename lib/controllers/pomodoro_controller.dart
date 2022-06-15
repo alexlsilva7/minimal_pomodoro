@@ -2,17 +2,32 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-enum TipoIntervalo { TRABALHO, DESCANSO }
+enum TipoIntervalo { FOCO, DESCANSO }
 
 class PomodoroController extends GetxController {
-  TipoIntervalo tipoIntervalo = TipoIntervalo.TRABALHO;
+  TipoIntervalo tipoIntervalo = TipoIntervalo.FOCO;
+  final box = GetStorage();
+  @override
+  void onInit() {
+    var foco = box.read('tempoFoco');
+    if (foco != null) {
+      tempoFoco.value = foco;
+      minutos.value = foco;
+    }
+    var descanso = box.read('tempoDescanso');
+    if (descanso != null) {
+      tempoDescanso.value = descanso;
+    }
+    super.onInit();
+  }
 
   var minutos = 25.obs;
 
   var segundos = 0.obs;
 
-  var tempoTrabalho = 25.obs;
+  var tempoFoco = 25.obs;
 
   var tempoDescanso = 5.obs;
 
@@ -25,7 +40,7 @@ class PomodoroController extends GetxController {
   void iniciar() {
     iniciado.value = true;
     reiniciado.value = false;
-    cronometro = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    cronometro = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (minutos.value == 0 && segundos.value == 0) {
         _trocarTipoIntervalo();
       } else if (segundos.value == 0) {
@@ -44,26 +59,17 @@ class PomodoroController extends GetxController {
 
   void reiniciar() {
     parar();
-    minutos.value =
-        estaTrabalhando() ? tempoTrabalho.value : tempoDescanso.value;
+    minutos.value = estaFocado() ? tempoFoco.value : tempoDescanso.value;
     segundos.value = 0;
     reiniciado.value = true;
   }
 
-  void incrementarTempoTrabalho() {
-    if (tempoTrabalho.value < 120) {
-      tempoTrabalho.value++;
-    }
-    if (estaTrabalhando()) {
-      reiniciar();
-    }
-  }
-
-  void setTempoTrabalho(int tempo) {
+  void setTempoFoco(int tempo) {
     if (tempo < 120 && tempo > 0) {
-      tempoTrabalho.value = tempo;
+      tempoFoco.value = tempo;
+      box.write('tempoFoco', tempo);
     }
-    if (estaTrabalhando()) {
+    if (estaFocado()) {
       reiniciar();
     }
   }
@@ -71,42 +77,15 @@ class PomodoroController extends GetxController {
   void setTempoDescanso(int tempo) {
     if (tempo < 120 && tempo > 0) {
       tempoDescanso.value = tempo;
+      box.write('tempoDescanso', tempo);
     }
     if (estaDescansando()) {
       reiniciar();
     }
   }
 
-  void decrementarTempoTrabalho() {
-    if (tempoTrabalho.value > 1) {
-      tempoTrabalho.value--;
-    }
-    if (estaTrabalhando()) {
-      reiniciar();
-    }
-  }
-
-  void incrementarTempoDescanso() {
-    if (tempoDescanso.value < 120) {
-      tempoDescanso.value++;
-    }
-
-    if (estaDescansando()) {
-      reiniciar();
-    }
-  }
-
-  void decrementarTempoDescanso() {
-    if (tempoDescanso.value > 1) {
-      tempoDescanso.value--;
-    }
-    if (estaDescansando()) {
-      reiniciar();
-    }
-  }
-
-  bool estaTrabalhando() {
-    return tipoIntervalo == TipoIntervalo.TRABALHO;
+  bool estaFocado() {
+    return tipoIntervalo == TipoIntervalo.FOCO;
   }
 
   bool estaDescansando() {
@@ -122,12 +101,12 @@ class PomodoroController extends GetxController {
 
   void _trocarTipoIntervalo() {
     playBell();
-    if (estaTrabalhando()) {
+    if (estaFocado()) {
       tipoIntervalo = TipoIntervalo.DESCANSO;
       minutos.value = tempoDescanso.value;
     } else {
-      tipoIntervalo = TipoIntervalo.TRABALHO;
-      minutos.value = tempoTrabalho.value;
+      tipoIntervalo = TipoIntervalo.FOCO;
+      minutos.value = tempoFoco.value;
     }
     segundos.value = 0;
   }

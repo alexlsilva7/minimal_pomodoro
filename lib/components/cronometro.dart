@@ -55,19 +55,19 @@ class _CronometroState extends State<Cronometro>
                 ),
                 CircularPercentIndicator(
                   radius: 120,
-                  progressColor: store.estaTrabalhando()
+                  progressColor: store.estaFocado()
                       ? Colors.deepPurple.withOpacity(0.05)
                       : Colors.green.withOpacity(0.05),
-                  backgroundColor: store.estaTrabalhando()
+                  backgroundColor: store.estaFocado()
                       ? Colors.deepPurple.withOpacity(0.001)
                       : Colors.green.withOpacity(0.001),
                   percent: store.minutos.value == 0 && store.segundos.value == 0
                       ? 0
-                      : store.estaTrabalhando()
+                      : store.estaFocado()
                           ? ((((store.minutos.value * 60 +
                                               store.segundos.value) *
                                           100) /
-                                      (store.tempoTrabalho.value * 60)) /
+                                      (store.tempoFoco.value * 60)) /
                                   100)
                               .toPrecision(3)
                           : ((((store.minutos.value * 60 +
@@ -81,19 +81,18 @@ class _CronometroState extends State<Cronometro>
                 ),
                 CircularPercentIndicator(
                   radius: 110,
-                  progressColor: store.estaTrabalhando()
-                      ? Colors.deepPurple
-                      : Colors.green,
-                  backgroundColor: store.estaTrabalhando()
+                  progressColor:
+                      store.estaFocado() ? Colors.deepPurple : Colors.green,
+                  backgroundColor: store.estaFocado()
                       ? Colors.deepPurple.withOpacity(0.5)
                       : Colors.green.withOpacity(0.5),
                   percent: store.minutos.value == 0 && store.segundos.value == 0
                       ? 0
-                      : store.estaTrabalhando()
+                      : store.estaFocado()
                           ? ((((store.minutos.value * 60 +
                                               store.segundos.value) *
                                           100) /
-                                      (store.tempoTrabalho.value * 60)) /
+                                      (store.tempoFoco.value * 60)) /
                                   100)
                               .toPrecision(3)
                           : ((((store.minutos.value * 60 +
@@ -127,46 +126,18 @@ class _CronometroState extends State<Cronometro>
               ],
             ),
             const SizedBox(height: 16),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Row(
-            //       children: [
-            //         !store.iniciado.value
-            //             ? CronometroBotao(
-            //                 text: "Iniciar",
-            //                 iconData: Icons.play_arrow,
-            //                 onTap: store.iniciar)
-            //             : CronometroBotao(
-            //                 text: "Parar",
-            //                 iconData: Icons.stop,
-            //                 onTap: store.parar,
-            //               ),
-            //         const SizedBox(width: 16),
-            //         CronometroBotao(
-            //           text: "Reiniciar",
-            //           iconData: Icons.refresh,
-            //           onTap: store.reiniciar,
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-
             Stack(
               alignment: Alignment.center,
               children: [
                 Container(
                   margin: const EdgeInsets.all(20),
-                  width: 85,
-                  height: 85,
+                  width: 110,
+                  height: 110,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        store.estaTrabalhando()
-                            ? Colors.deepPurple
-                            : Colors.green,
+                        store.estaFocado() ? Colors.deepPurple : Colors.green,
                         const Color.fromARGB(255, 52, 32, 87),
                         const Color.fromARGB(255, 23, 18, 32)
                       ],
@@ -174,10 +145,9 @@ class _CronometroState extends State<Cronometro>
                   ),
                 ),
                 CircleAvatar(
-                  radius: 30,
-                  backgroundColor: store.estaTrabalhando()
-                      ? Colors.deepPurple
-                      : Colors.green,
+                  radius: 40,
+                  backgroundColor:
+                      store.estaFocado() ? Colors.deepPurple : Colors.green,
                   child: IconButton(
                     iconSize: 30,
                     splashRadius: 10,
