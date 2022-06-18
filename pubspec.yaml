@@ -49,7 +49,31 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_native_splash: ^2.2.3+1
+  # TERMINAL flutter pub run flutter_native_splash:create
+  # flutter_launcher_name: "^0.0.1"
+  # TERMINAL flutter pub run flutter_launcher_name:main 
+  # flutter_launcher_icons: "^0.9.2"
+  # TERMINAL flutter pub run flutter_launcher_icons:main
 
+
+flutter_launcher_name:
+  name: "Minimal Pomodoro"
+
+flutter_icons:
+  image_path: "assets/icon/icon.png"
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  adaptive_icon_background: "#171220"
+  adaptive_icon_foreground: "assets/icon/icon.png"
+  
+
+flutter_native_splash:
+  color: "#171220"
+  image: assets/icon/icon.png
+  android: true
+  ios : true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

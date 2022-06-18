@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minimal_pomodoro/components/cronometro.dart';
-import 'package:minimal_pomodoro/controllers/pomodoro_controller.dart';
 import 'package:minimal_pomodoro/screens/home_screen/widget/settings_bottom_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,13 +8,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = Get.find<PomodoroController>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Minimal Pomodoro',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         actions: [
           IconButton(
